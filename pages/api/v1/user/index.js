@@ -1,5 +1,5 @@
-import controller from "infra/controller";
 import { createRouter } from "next-connect";
+import controller from "infra/controller.js";
 import user from "models/user.js";
 import session from "models/session";
 
@@ -12,7 +12,7 @@ export default router.handler(controller.errorHandlers);
 async function getHandler(request, response) {
   const sessionToken = request.cookies.session_id;
 
-  const sessionObject = await session.findOndeValidByToken(sessionToken);
+  const sessionObject = await session.findOneValidByToken(sessionToken);
   const renewedSessionObject = await session.renew(sessionObject.id);
   controller.setSessionCookie(renewedSessionObject.token, response);
 
